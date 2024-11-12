@@ -37,7 +37,7 @@ export default function History() {
         <div className="flex flex-col w-[100%] overflow-auto">
           {list.map((record, index) => (
             <Record
-              key={record.text}
+              key={index}
               text={record.text}
               type={record.type}
               palindrome={record.palindrome}
