@@ -1,25 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Record from "./components/Record";
 
-export default function History() {
-  const list = [
-    { text: "Hola", type: "Word", palindrome: false },
-    { text: "Anana", type: "Word", palindrome: true },
-    { text: "Hola", type: "Word", palindrome: false },
-    { text: "Anana", type: "Word", palindrome: true },
-    { text: "Hola", type: "Word", palindrome: false },
-    { text: "Anana", type: "Word", palindrome: true },
-    { text: "Hola", type: "Word", palindrome: false },
-    { text: "Anana", type: "Word", palindrome: true },
-
-    { text: "Anana", type: "Word", palindrome: true },
-    { text: "Hola", type: "Word", palindrome: false },
-    { text: "Anana", type: "Word", palindrome: true },
-    { text: "Anana", type: "Word", palindrome: true },
-    { text: "Hola", type: "Word", palindrome: false },
-    { text: "Anana", type: "Word", palindrome: true },
-  ];
-  return (
+interface Props {
+  records: { text: string; type: string; isPalindrome: boolean }[];
+}
+export default function History(props: Props) {
+  return props.records?.length > 0 ? (
     <div className="flex  w-[500px] h-[500px] border shadow-sm rounded-lg bg-card justify-center items-center">
       <div className="flex w-[90%] h-[93%] flex flex-col items-center">
         <div className="flex w-[95%] mt-2">
@@ -35,16 +21,16 @@ export default function History() {
         </div>
         <div className="mt-3 border-t-[1px] w-[100%]"></div>
         <div className="flex flex-col w-[100%] overflow-auto">
-          {list.map((record, index) => (
+          {props.records?.map((record, index) => (
             <Record
               key={index}
               text={record.text}
               type={record.type}
-              palindrome={record.palindrome}
+              palindrome={record.isPalindrome}
             />
           ))}
         </div>
       </div>
     </div>
-  );
+  ) : null;
 }

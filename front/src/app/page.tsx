@@ -10,14 +10,30 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { BookCheck, BookX, CircleOff, NotebookPen } from "lucide-react";
 import History from "./components/history/History";
-import { checkPalindrome } from "@/services/api";
+import { checkPalindrome, getHistory } from "@/services/api";
+
+type Record = {
+  text: string;
+  type: string;
+  isPalindrome: boolean;
+};
 
 export default function Home() {
   const [textInput, setTextInput] = useState("");
+  const [history, setHistory] = useState<Record[]>([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      const result = await getHistory();
+      setHistory(result);
+    };
+
+    getData();
+  }, []);
 
   async function checkSend() {
     try {
@@ -35,6 +51,7 @@ export default function Home() {
       ) : (
         <BookX className="w-5 h-5 text-red-500" />
       );
+
       toast(title, {
         description,
         icon,
@@ -44,6 +61,8 @@ export default function Home() {
           icon: "ml-1",
         },
       });
+      const result = await getHistory();
+      setHistory(result);
     } catch {
       toast("Error verifying", {
         icon: <CircleOff className="w-5 h-5 text-red-500" />,
@@ -100,7 +119,7 @@ export default function Home() {
             </Button>
           </CardFooter>
         </Card>
-        <History />
+        <History records={history} />
       </main>
       <Toaster />
     </div>
