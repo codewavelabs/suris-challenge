@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { isPalindrome } from "../services/checkService";
+import { checkTypeAndPalindromeString } from "../services/checkService";
 
 export const checkPalindrome = (
   req: Request,
@@ -12,8 +12,8 @@ export const checkPalindrome = (
     if (!text) {
       res.status(400).json({ message: "Parameter 'text' is required" });
     }
-    const result = isPalindrome(text);
-    res.json({ text, isPalindrome: result });
+    const { type, isPalindrome } = checkTypeAndPalindromeString(text);
+    res.json({ text, type, typeCheck: "new", isPalindrome });
   } catch (error) {
     next(error);
   }
