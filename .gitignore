@@ -9,3 +9,5 @@ dist/
 
 # Ignore package lock   
 package-lock.json
+
+data/
